@@ -16,7 +16,7 @@ def checkpos(a): #function used to get the positive real parts of the eigenvalue
       if a[i]<0:
         a[i]=0
   return a
-    
+ 
 class CavityEnv(gym.Env):
       
       metadata = {'render.modes': ['human']} #non so bene a che serva ma per ora lo tengo
@@ -119,6 +119,7 @@ class CavityEnv(gym.Env):
                   Qcost=self.q*np.trace(J@W@(J.T))
                   rew=-W[0,0]-Qcost#-(r[0]**2+self.q*u@u.T) in case we want to use an on trajectory approach still using matrice action
                 if feedback=='Markov':
+                  Qcost=0
                   rew=self.rewfunc(r,sc,exc,pow) #purity-like reward function unless otherwise specified in init
                 
                 #Hurwitz condition check and eventual penalty (different for Markov and Bayes case)
@@ -143,7 +144,7 @@ class CavityEnv(gym.Env):
                 self.r=r
                 self.exc=exc
                 if feedback=='Bayes':
-                    output=np.concatenate((exc.flatten(),base.flatten()),axis=0)#r in the case of on trajectory with matrice action
+                    output=W.flatten()#np.concatenate((exc.flatten(),base.flatten()),axis=0)#r in the case of on trajectory with matrice action
                 if feedback=='Markov':
                     output=exc.flatten()
                 #here we normalize the observation between -1 and 1
@@ -259,9 +260,9 @@ class CavityEnv(gym.Env):
               if self.u_act==False:
             
                 if self.feedback=='Bayes':
-                  output=np.concatenate((np.array(self.exc).flatten(),np.outer(self.r,self.r.T).flatten()),axis=0)
+                  output=self.exc.flatten()#np.concatenate((np.array(self.exc).flatten(),np.outer(self.r,self.r.T).flatten()),axis=0)
                 if self.feedback=='Markov':
-                  output=self.exc
+                  output=self.exc.flatten()
 
               else:
                 output=self.r #recall that u_act True is possible only with Bayesian feedback as for now

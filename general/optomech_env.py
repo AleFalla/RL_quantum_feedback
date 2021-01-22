@@ -23,7 +23,7 @@ def checkpos(a):
   
 class OptomechEnv(gym.Env):
       
-      metadata = {'render.modes': ['human']} 
+      metadata = {'render.modes': ['human']} #non so bene a che serva ma per ora lo tengo
 
       def __init__(self,feedback,P,partialpur=False,rewfunc=Tools.purity_like_rew,F=np.identity(4),q=1e-4,dt=1e-3,plot=False,steadyreset=False,pow=0.5,params={'wm':1,'k':0.5,'y':2e-7,'eta':1,'g':2*0.15,'detuning':1,'ne':3.5e5,'na':0,'phi':math.pi/2}):
               
@@ -37,15 +37,15 @@ class OptomechEnv(gym.Env):
               self.ell=None
               self.ax=None
               #check None parameters
-              wm=Tools.check_param(self.params['wm'],1,True)
-              k=Tools.check_param(self.params['k'],3,True)
-              g=Tools.check_param(self.params['g'],1,True)
-              y=Tools.check_param(self.params['y'],1,True)
-              eta=Tools.check_param(self.params['eta'],1,True)
-              detuning=Tools.check_param(self.params['detuning'],1,True)
-              ne=Tools.check_param(self.params['ne'],0.5,True)
-              na=Tools.check_param(self.params['na'],0.5,True)
-              phi=Tools.check_param(self.params['phi'],0.5,True)
+              wm=Tools.check_param(params['wm'],1,True)
+              k=Tools.check_param(params['k'],3,True)
+              g=Tools.check_param(params['g'],1,True)
+              y=Tools.check_param(params['y'],1,True)
+              eta=Tools.check_param(params['eta'],1,True)
+              detuning=Tools.check_param(params['detuning'],1,True)
+              ne=Tools.check_param(params['ne'],0.5,True)
+              na=Tools.check_param(params['na'],0.5,True)
+              phi=Tools.check_param(params['phi'],0.5,True)
               params={'wm':wm,'k':k,'y':y,'eta':eta,'g':g,'detuning':detuning,'ne':ne,'na':na,'phi':phi}
               self.params=params #save parameters
               self.rewfunc=rewfunc #set reward function
